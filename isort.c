@@ -4,12 +4,11 @@
 
 void print_array(size_t how_many, int array[]){
     int i;
-    printf("**********\n");
     for (i = 0; i < how_many; i++)
     {
-        printf("%d\n", array[i]);
+        if(i == how_many-1)printf("%d\n", *(array + i));
+        else printf("%d,", *(array + i));
     }
-    printf("**********\n\n");
 }
 
 void shift_element(int *arr, int i){
@@ -45,7 +44,6 @@ int main(void){
         scanf("%d",(arr + i));
         printf("Number %d registered\n", i);
     }
-    print_array(SIZE, arr);
     insertion_sort(arr, SIZE);
     print_array(SIZE, arr);
     return 0;
