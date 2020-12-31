@@ -2,6 +2,7 @@
 
 #define SIZE 50
 
+//A simple method to print an array
 void print_array(size_t how_many, int array[]){
     int i;
     for (i = 0; i < how_many; i++)
@@ -11,12 +12,18 @@ void print_array(size_t how_many, int array[]){
     }
 }
 
+/*
+    This method gets a pointer to a position in an array and an integer i; 
+    The method procedes to shift i elements, starting at the one received as a parameter, one cell to the right, 
+    overriding the current value in each cell. 
+*/
 void shift_element(int *arr, int i){
     for(int j = i; j > 0 ; j--){
         *(arr + j)  = *(arr + j-1);
     }
 }
 
+//Pointer arithmetic implementation of insertion sort. 
 void insertion_sort(int* arr , int len){
     
     int *ptr;//We will send this pointer to shift_element
@@ -36,6 +43,7 @@ void insertion_sort(int* arr , int len){
         }
     }
 }
+
 
 int main(void){
     int arr[SIZE];
