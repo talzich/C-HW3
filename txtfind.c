@@ -1,6 +1,13 @@
 #include <stdio.h> 
 #include <stdlib.h>
 #include <string.h>
+#include <assert.h>
+
+#define SIZE 250
+
+struct arr{
+    char text[SIZE][SIZE];
+};
 
 //This method takes input and dynamically places it into a string
 void init(char str[], char word[], char *option, int length){
@@ -42,36 +49,32 @@ int check_word(char *piece, char *word){
     return 1;
 }
 
-void print_lines(char line[], char word[]){
+int check_line(char *line, char *word){
     char copy[strlen(line)];
     memcpy(copy, line, strlen(line));
 
-    char *piece = strtok(copy, " \t\r\n\v\f");
-
-    while(piece != NULL)
-    {
-        if(strlen(piece) >= strlen(word) && strlen(piece) <= strlen(word) + 1)
-            if(check_word(piece,word)) printf("%s\n", copy);
-        piece = strtok(NULL, " \t\r\n\v\f");
+    char *piece = strtok(copy, " \t\r\n\v");
+    while(piece != NULL){
+        if(!check_word(piece, word)) return 0;
+        piece = strtok(NULL, " \t\r\n\v");
     }
+    return 1;
 }
 
-void check_lines(char txt[], char word[]){
-
-    //We need a copy of the original txt because strtok modifies the string it is working on
+int split(char txt[], struct arr *lines){
     char copy[strlen(txt)];
     memcpy(copy, txt, strlen(txt));
 
-    char *line = strtok(copy, "\n");
-    char *piece;
-    while(line != NULL)
-    {   
-        printf("Current line: %s\n", line);
-        print_lines(line, word);
-        line = strtok(NULL, "\n");
-        printf("Next line: %s\n", line);
-    }
+    char *piece = strtok(copy, "\n");
+    int i = 0;
+    struct arr res;
+    while(piece != NULL){
+        strcpy((*lines).text[i], piece);
+        piece = strtok(NULL, "\n");
+        i++;
 
+    }
+    return (i);
 }
 
 void print_words(char txt[], char word[]){
@@ -88,6 +91,16 @@ void print_words(char txt[], char word[]){
     }
 }
 
+void print_lines(char txt[], char word[]){
+    struct arr lines;
+    int num_lines = split(txt, &lines); 
+    
+    int i;
+    for(i=0; i < num_lines; i++){
+        printf("%s\n", lines.text[i]);
+    }
+}
+
 int main(void){
     int init_len = 10;
     char option;//This char will hold the print option
@@ -96,8 +109,8 @@ int main(void){
     
     init(txt, word, &option, init_len);
 
-    if(option == 'a') check_lines(txt, word);
-    else print_words(txt, word);
+     if(option == 'a') print_lines(txt, word);
+    // else print_words(txt, word);
     
 
     return 0;
