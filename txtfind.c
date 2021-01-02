@@ -33,24 +33,25 @@ void init(char str[], char word[], char *option, int length){
 }
 
 void print_lines(char str[], char word[]){}
-void print_words(char str[], char word[]){}
+
+void print_words(char str[], char word[]){
+    
+}
 
 
 int main(void){
     int init_len = 10;
     char option;//This char will hold the print option
     char *word = malloc(init_len * sizeof(char));//This string will store the word we are looking for
-    char *str = malloc(init_len * sizeof(char));//This string will store the text we want to search in
+    char *txt = malloc(init_len * sizeof(char));//This string will store the text we want to search in
     
-    init(str, word, &option, init_len);
+    init(txt, word, &option, init_len);
 
-
-    // if(option == 'a') print_lines(str, word);
-    // else print_words(str, word);
-    
     printf("Word to search is %s, search option is %c\n", word, option);
-    printf("%s\n", str);
-    
+    printf("%s\n", txt);
+
+    if(option == 'a') print_lines(txt, word);
+    else print_words(txt, word);
     
     
     return 0;
