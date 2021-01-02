@@ -49,16 +49,18 @@ int check_word(char *piece, char *word){
     return 1;
 }
 
-int check_line(char *line, char *word){
+int check_line(char line[], char word[]){
     char copy[strlen(line)];
-    memcpy(copy, line, strlen(line));
+    strcpy(copy, line);
+
 
     char *piece = strtok(copy, " \t\r\n\v");
     while(piece != NULL){
-        if(!check_word(piece, word)) return 0;
+        if(strlen(piece) >= strlen(word) && strlen(piece) <= strlen(word) + 1)
+            if(check_word(piece,word)) return 1;
         piece = strtok(NULL, " \t\r\n\v");
     }
-    return 1;
+    return 0;
 }
 
 int split(char txt[], struct arr *lines){
@@ -72,15 +74,14 @@ int split(char txt[], struct arr *lines){
         strcpy((*lines).text[i], piece);
         piece = strtok(NULL, "\n");
         i++;
-
     }
-    return (i);
+    return (++i);
 }
 
 void print_words(char txt[], char word[]){
     //We need a copy of the original txt because strtok modifies the string it is working on
     char copy[strlen(txt)];
-    memcpy(copy, txt, strlen(txt));
+    strcpy(copy, txt);
 
     char *piece = strtok(copy, " \t\r\n\v\f");
     while(piece != NULL)
@@ -95,9 +96,9 @@ void print_lines(char txt[], char word[]){
     struct arr lines;
     int num_lines = split(txt, &lines); 
     
-    int i;
-    for(i=0; i < num_lines; i++){
-        printf("%s\n", lines.text[i]);
+    int i; 
+    for(i=0; i<num_lines; i++){
+        if(check_line(lines.text[i], word)) printf("%s\n", lines.text[i]);
     }
 }
 
@@ -109,9 +110,8 @@ int main(void){
     
     init(txt, word, &option, init_len);
 
-     if(option == 'a') print_lines(txt, word);
-    // else print_words(txt, word);
-    
+    if(option == 'a') print_lines(txt, word);
+    else print_words(txt, word);
 
     return 0;
 }
