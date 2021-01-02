@@ -32,12 +32,61 @@ void init(char str[], char word[], char *option, int length){
     }
 }
 
-void print_lines(char str[], char word[]){}
-
-void print_words(char str[], char word[]){
-    
+int check_word(char *piece, char *word){
+    int i;
+    for(i = 0; i < strlen(word); i++){
+        if(word[i] != piece[i]){
+            if(word[i] != piece[i+1]) return 0;
+        }
+    }
+    return 1;
 }
 
+void print_lines(char line[], char word[]){
+    char copy[strlen(line)];
+    memcpy(copy, line, strlen(line));
+
+    char *piece = strtok(copy, " \t\r\n\v\f");
+
+    while(piece != NULL)
+    {
+        if(strlen(piece) >= strlen(word) && strlen(piece) <= strlen(word) + 1)
+            if(check_word(piece,word)) printf("%s\n", copy);
+        piece = strtok(NULL, " \t\r\n\v\f");
+    }
+}
+
+void check_lines(char txt[], char word[]){
+
+    //We need a copy of the original txt because strtok modifies the string it is working on
+    char copy[strlen(txt)];
+    memcpy(copy, txt, strlen(txt));
+
+    char *line = strtok(copy, "\n");
+    char *piece;
+    while(line != NULL)
+    {   
+        printf("Current line: %s\n", line);
+        print_lines(line, word);
+        line = strtok(NULL, "\n");
+        printf("Next line: %s\n", line);
+    }
+
+}
+
+void print_words(char txt[], char word[]){
+    //We need a copy of the original txt because strtok modifies the string it is working on
+    char copy[strlen(txt)];
+    memcpy(copy, txt, strlen(txt));
+
+    char *piece = strtok(copy, " \t\r\n\v\f");
+    while(piece != NULL)
+    {
+        if(strlen(piece) >= strlen(word) && strlen(piece) <= strlen(word) + 1)
+            if(check_word(piece,word)) printf("%s\n", piece);
+        piece = strtok(NULL, " \t\r\n\v\f");
+    }
+}
 
 int main(void){
     int init_len = 10;
@@ -47,12 +96,9 @@ int main(void){
     
     init(txt, word, &option, init_len);
 
-    printf("Word to search is %s, search option is %c\n", word, option);
-    printf("%s\n", txt);
-
-    if(option == 'a') print_lines(txt, word);
+    if(option == 'a') check_lines(txt, word);
     else print_words(txt, word);
     
-    
+
     return 0;
 }
