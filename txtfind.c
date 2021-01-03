@@ -9,7 +9,7 @@ struct arr{
     char text[SIZE][SIZE];
 };
 
-//This method takes input and dynamically places it into a string
+
 void init(char str[], char word[], char *option, int length){
     int skip = 1, op_flag = 0, word_flag = 0;
     int count = 0, i =0;
@@ -69,7 +69,6 @@ int split(char txt[], struct arr *lines){
 
     char *piece = strtok(copy, "\n");
     int i = 0;
-    struct arr res;
     while(piece != NULL){
         strcpy((*lines).text[i], piece);
         piece = strtok(NULL, "\n");

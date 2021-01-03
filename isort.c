@@ -50,7 +50,6 @@ int main(void){
     printf("Please enter 50 numbers:\n");
     for(int i = 0; i < SIZE; i++){
         scanf("%d",(arr + i));
-        printf("Number %d registered\n", i);
     }
     insertion_sort(arr, SIZE);
     print_array(SIZE, arr);
