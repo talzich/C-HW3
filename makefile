@@ -2,19 +2,19 @@ AR = ar
 CFLAGS = -Wall -g
 CC = gcc
 
-all: isorts isortd txtfinds txtfindd
+all: isorts isort txtfinds txtfind
 
 #dynamic
-isortd: isort.o libmysort.so
-	$(CC) $(CFLAGS) -o isortd isort.o ./libmysort.so
+isort: isort.o libmysort.so
+	$(CC) $(CFLAGS) -o isort isort.o ./libmysort.so
 
 #static
 isorts: isort.o libmysort.a
 	$(CC) $(CFLAGS) -o isorts isort.o libmysort.a
 
 #dynamic
-txtfindd: txtfind.o libmytxtfind.so
-	$(CC) $(CFLAGS) -o txtfindd txtfind.o ./libmytxtfind.so
+txtfind: txtfind.o libmytxtfind.so
+	$(CC) $(CFLAGS) -o txtfind txtfind.o ./libmytxtfind.so
 
 #static
 txtfinds: txtfind.o libmytxtfind.a
@@ -45,5 +45,5 @@ isort.o: isort.c
 .PHONY: clean
 
 clean:
-	rm -rf *o *so *a *out isorts isortd txtfindd txtfinds
+	rm -rf *o *so *a *out isorts isort txtfind txtfinds
 
